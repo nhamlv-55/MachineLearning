@@ -47,7 +47,8 @@ end;
 %         cost function computation is correct by verifying the cost
 %         computed in ex4.m
 %
-a1=[ones(1,size(X',2)) ; X'];
+x=X';
+a1=[ones(1,size(x,2)) ; x];
 
 z2=Theta1*a1;
 a2=sigmoid(z2);
@@ -94,8 +95,28 @@ J=J+reg*lambda/(2*m);
 %               over the training examples if you are implementing it for the 
 %               first time.
 %
+for i = 1:m,
+	a_1=x(:,i);
+	a_1=[1; a_1];
+	z_2=Theta1*a_1;
+	a_2=sigmoid(z_2);
+	a_2=[1; a_2];
+	z_3=Theta2*a_2;
+	a_3=sigmoid(z_3);
+	%~ a_3
+	s_3=zeros(num_labels,1);
+	for k=1:num_labels,
+		s_3(k)=a_3(k)-new_y(i,k);
+	end;
+	%~ s_3
+	s_2=(Theta2'*s_3).*[1;sigmoidGradient(z_2)];
+	Theta2_grad=Theta2_grad + s_3*a_2';
+	%~ Theta2_grad
+	Theta1_grad=Theta1_grad + s_2(2:end)*a_1';
+end;
 
-
+Theta1_grad=1/m*Theta1_grad;
+Theta2_grad=1/m*Theta2_grad;
 
 % Part 3: Implement regularization with the cost function and gradients.
 %
