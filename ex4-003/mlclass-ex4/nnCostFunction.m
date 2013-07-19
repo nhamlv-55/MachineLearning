@@ -64,6 +64,21 @@ for i=1:m,
 	end;
 end;
 J=J/m;
+
+reg=0;
+for j=1:size(Theta1,1),
+	for k=2:size(Theta1, 2),
+		reg=reg+Theta1(j,k)^2;
+	end;
+end;
+
+for j=1:size(Theta2,1),
+	for k=2:size(Theta2, 2),
+		reg=reg+Theta2(j,k)^2;
+	end;
+end;
+
+J=J+reg*lambda/(2*m);
 % Part 2: Implement the backpropagation algorithm to compute the gradients
 %         Theta1_grad and Theta2_grad. You should return the partial derivatives of
 %         the cost function with respect to Theta1 and Theta2 in Theta1_grad and
@@ -79,6 +94,9 @@ J=J/m;
 %               over the training examples if you are implementing it for the 
 %               first time.
 %
+
+
+
 % Part 3: Implement regularization with the cost function and gradients.
 %
 %         Hint: You can implement this around the code for
