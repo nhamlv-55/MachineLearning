@@ -30,6 +30,14 @@ J = 0;
 Theta1_grad = zeros(size(Theta1));
 Theta2_grad = zeros(size(Theta2));
 
+%modify y
+new_y=zeros(m, num_labels);
+for i=1:m,
+	temp=zeros(1,num_labels);
+	temp(y(i))=1;
+	new_y(i,:)=temp;
+end;
+
 % ====================== YOUR CODE HERE ======================
 % Instructions: You should complete the code by working through the
 %               following parts.
@@ -39,6 +47,23 @@ Theta2_grad = zeros(size(Theta2));
 %         cost function computation is correct by verifying the cost
 %         computed in ex4.m
 %
+a1=[ones(1,size(X',2)) ; X'];
+
+z2=Theta1*a1;
+a2=sigmoid(z2);
+a2=[ones(1, size(a2,2)); a2];
+
+z3=Theta2*a2;
+a3=sigmoid(z3);
+
+h=a3;
+
+for i=1:m,
+	for k=1:num_labels,
+		J=J-( log(h(k,i))*new_y(i,k) + log(1-h(k,i))*(1-new_y(i,k)) );
+	end;
+end;
+J=J/m;
 % Part 2: Implement the backpropagation algorithm to compute the gradients
 %         Theta1_grad and Theta2_grad. You should return the partial derivatives of
 %         the cost function with respect to Theta1 and Theta2 in Theta1_grad and
