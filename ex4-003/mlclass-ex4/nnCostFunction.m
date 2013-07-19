@@ -116,7 +116,18 @@ for i = 1:m,
 end;
 
 Theta1_grad=1/m*Theta1_grad;
+for i=1:size(Theta1_grad,1),
+	for j=2:size(Theta1_grad,2),
+		Theta1_grad(i,j)=Theta1_grad(i,j)+lambda/m*Theta1(i,j);
+	end;
+end;
+
 Theta2_grad=1/m*Theta2_grad;
+for i=1:size(Theta2_grad,1),
+	for j=2:size(Theta2_grad,2),
+		Theta2_grad(i,j)=Theta2_grad(i,j)+lambda/m*Theta2(i,j);
+	end;
+end;
 
 % Part 3: Implement regularization with the cost function and gradients.
 %
@@ -125,20 +136,6 @@ Theta2_grad=1/m*Theta2_grad;
 %               the regularization separately and then add them to Theta1_grad
 %               and Theta2_grad from Part 2.
 %
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
