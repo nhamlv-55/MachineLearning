@@ -11,7 +11,8 @@ function [lambda_vec, error_train, error_val] = ...
 
 % Selected values of lambda (you should not change this)
 lambda_vec = [0 0.001 0.003 0.01 0.03 0.1 0.3 1 3 10]';
-
+m=size(X,1)
+m1=size(Xval,1)
 % You need to return these variables correctly.
 error_train = zeros(length(lambda_vec), 1);
 error_val = zeros(length(lambda_vec), 1);
@@ -39,14 +40,15 @@ error_val = zeros(length(lambda_vec), 1);
 %
 %
 
-
-
-
-
-
-
-
-
+for i=1:length(lambda_vec)
+	lambda=lambda_vec(i);
+	[theta] = trainLinearReg([ones(m, 1) X], y, lambda)
+	h=[ones(m, 1) X]*theta;
+	hval=[ones(m1, 1) Xval]*theta;
+	%In all case, the error doesnt include the regulization
+	error_train(i)=1/(2*m)*sum((h-y).^2);
+	error_val(i)=1/(2*m1)*sum((hval-yval).^2);
+end;
 
 % =========================================================================
 
